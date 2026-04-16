@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Track Order - FreshBites Bakery{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h2 class="mb-3 text-center">Track Your Order</h2>
+            <form method="GET" action="{{ url_for('track_order_page') }}" class="d-flex gap-2 justify-content-center">
+                <input type="number" name="order_id" class="form-control w-50" placeholder="Enter your Order ID..." required>
+                <button type="submit" class="btn btn-order">Track Status</button>
+            </form>
+        </div>
+
+        {% if order %}
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+                <h4 class="mb-0">Order #{{ order.id }}</h4>
+                <span class="badge 
+                    {% if order.status == 'completed' %}bg-success
+                    {% elif order.status == 'pending' %}bg-warning text-dark
+                    {% elif order.status == 'cancelled' %}bg-danger
+                    {% else %}bg-info{% endif %} fs-6">
+                    {{ order.status|title }}
+                </span>
+            </div>
+            
+            <!-- Customer details hidden for privacy -->
+            <h6 class="text-muted small text-uppercase mt-3 border-bottom pb-2">Order Items</h6>
+            <ul class="list-unstyled mb-0">
+                {% for item in items %}
+                <li class="d-flex justify-content-between py-2 border-bottom">
+                    <span>{{ item.name }} × {{ item.quantity }}</span>
+                    <span>₹{{ '%.0f'|format(item.unit_price * item.quantity) }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Order confirmed - FreshBites Bakery{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+        style="width: 72px; height: 72px; background: var(--light-green); color: var(--primary-green);">
+        <i class="fa-solid fa-check fa-2x"></i>
+    </div>
+    <h1 style="font-family: 'Playfair Display', serif; color: var(--primary-green);">Order confirmed</h1>
+    <p class="text-muted mb-0">Thank you! Your order is saved in our database.</p>
+    <p class="fw-semibold mt-2">Order #{{ order.id }}</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <div class="row">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <h6 class="text-uppercase text-muted small">Delivery</h6>
+                        <p class="mb-1 fw-semibold">{{ order.customer_name }}</p>
+                        <p class="mb-1 small">{{ order.email }}</p>
+                        <p class="mb-1 small">{{ order.phone }}</p>
+                        <p class="small text-muted mb-0">{{ order.address }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-uppercase text-muted small">Payment</h6>
+                        <p class="mb-0">{{ order.payment_method }}</p>
+                        <p class="small text-muted mb-0">Placed {{ order.created_at[:19] }} UTC</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h5 class="mb-3" style="color: var(--primary-green);">Items</h5>
+                <ul class="list-group list-group-flush">
+                    {% for it in items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        <span>{{ it.name }} × {{ it.quantity }}</span>
+                        <span>₹{{ '%.0f'|format(it.unit_price * it.quantity) }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                    <span class="fs-5 fw-bold" style="color: var(--primary-green);">Total</span>
+                    <span class="fs-5 fw-bold" style="color: var(--primary-green);">₹{{ '%.0f'|format(order.total) }} /-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('thank_you_page') }}" class="btn btn-order me-2">Thank you page</a>
+            <a href="{{ url_for('products_page') }}" class="btn btn-outline-success rounded-pill">Shop again</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Products - FreshBites Bakery{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h4 class="text-uppercase" style="color: var(--primary-yellow); letter-spacing: 2px;">Our Menu</h4>
+    <h1 style="font-family: 'Playfair Display', serif; color: var(--primary-green);">Cakes &amp; treats</h1>
+    <p class="text-muted">Add items to your cart — catalog from our database.</p>
+</div>
+
+{% set labels = {
+    'birthday': 'Birthday cakes',
+    'wedding': 'Wedding cakes',
+    'party': 'Party & events',
+    'eggless': 'Eggless (veg)',
+    'nonveg': 'Contains egg'
+} %}
+<div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+    <a href="{{ url_for('products_page') }}" class="btn btn-sm rounded-pill {% if not active_category %}btn-success{% else %}btn-outline-success{% endif %}">All</a>
+    {% for key in ['birthday', 'wedding', 'party', 'eggless', 'nonveg'] %}
+    <a href="{{ url_for('products_page', category=key) }}"
+        class="btn btn-sm rounded-pill {% if active_category == key %}btn-success{% else %}btn-outline-secondary{% endif %}">{{ labels[key] }}</a>
+    {% endfor %}
+</div>
+{% if active_category %}
+<p class="text-center small text-muted mb-4">Showing: <strong>{{ labels.get(active_category, active_category) }}</strong>
+    — <a href="{{ url_for('products_page') }}">Clear filter</a></p>
+{% endif %}
+
+<div class="row g-4">
+    {% for p in products %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="ratio ratio-4x3 bg-light">
+                <img src="{{ p.image_url }}" alt="{{ p.name }}" class="object-fit-cover w-100 h-100"
+                    style="object-fit: cover;">
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title" style="color: var(--primary-green);">{{ p.name }}</h5>
+                <p class="card-text text-muted small flex-grow-1">{{ p.description }}</p>
+                <p class="fw-bold text-success mb-3">₹{{ '%.0f'|format(p.price) }} /-</p>
+                <form method="post" action="{{ url_for('cart_page') }}" class="d-flex gap-2 align-items-end">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="product_id" value="{{ p.id }}">
+                    <div>
+                        <label class="form-label small text-muted mb-0">Qty</label>
+                        <input type="number" name="quantity" value="1" min="1" max="99"
+                            class="form-control form-control-sm" style="width: 4.5rem;">
+                    </div>
+                    <button type="submit" class="btn btn-order btn-sm ms-auto">Add to cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %} 
+    <p class="text-center text-muted">No products yet. Restart the app to seed the database.</p>
+    {% endfor %}
+</div>
+{% endblock %}

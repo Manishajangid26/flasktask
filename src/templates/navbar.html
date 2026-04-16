@@ -1,0 +1,161 @@
+{% macro nav_tile(p) -%}
+{% if p %}
+<div class="nav-mega-tile text-center h-100">
+    <div class="ratio ratio-4x3 rounded-3 overflow-hidden mb-2 bg-light border">
+        <img src="{{ p.image_url }}" alt="{{ p.name }}" class="w-100 h-100" style="object-fit: cover;">
+    </div>
+    <div class="small fw-semibold text-truncate px-1" style="color: var(--primary-green);">{{ p.name }}</div>
+    <div class="small text-muted mb-2">₹{{ '%.0f'|format(p.price) }}</div>
+    <form method="post" action="{{ url_for('cart_page') }}" class="d-grid">
+        <input type="hidden" name="action" value="add">
+        <input type="hidden" name="product_id" value="{{ p.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn btn-order btn-sm py-1">Add to cart</button>
+    </form>
+</div>
+{% endif %}
+{%- endmacro %}
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top navbar-compact">
+    <div class="container">
+        <a class="navbar-brand py-0 me-2" href="{{ url_for('homepage') }}">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="navbar-logo" alt="Cake Factory Kota">
+        </a>
+
+        <button class="navbar-toggler py-1 px-2 border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars fa-lg" style="color: var(--primary-green);"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                {# Home #}
+                <li class="nav-item dropdown dropdown-hover-lg">
+                    <a class="nav-link dropdown-toggle py-2 py-lg-1" href="{{ url_for('homepage') }}"
+                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        Home
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
+                        <li><a class="dropdown-item" href="{{ url_for('homepage') }}">Homepage</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('homepage') }}#our-menu">Our Menu</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('homepage') }}#our-story">Our story</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('products_page') }}">Shop all cakes</a></li>
+                    </ul>
+                </li>
+
+                {# Products List #}
+                <li class="nav-item dropdown dropdown-hover-lg">
+                    <a class="nav-link dropdown-toggle py-2 py-lg-1" href="#"
+                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        Products
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
+                        <li><a class="dropdown-item" href="{{ url_for('menu_page') }}">Menu</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('menu_page', dietary='eggless') }}">Eggless</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('menu_page', dietary='with_egg') }}">Contains Egg</a></li>
+                    </ul>
+                </li>
+
+                {# Shops #}
+                <li class="nav-item dropdown dropdown-hover-lg">
+                    <a class="nav-link dropdown-toggle py-2 py-lg-1" href="{{ url_for('shops_page') }}"
+                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        Shops
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
+                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}">Both branches</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}#branch-1">Branch 1 — Mahaveer Nagar</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}#branch-2">Branch 2 — City Mall</a></li>
+                    </ul>
+                </li>
+
+                {# About #}
+                <li class="nav-item dropdown dropdown-hover-lg">
+                    <a class="nav-link dropdown-toggle py-2 py-lg-1" href="{{ url_for('about_page') }}"
+                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        About Us
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
+                        <li><a class="dropdown-item" href="{{ url_for('about_page') }}">About FreshBites</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('homepage') }}#our-story">Story on home</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('products_page') }}">Our products</a></li>
+                    </ul>
+                </li>
+
+                {# Contact #}
+                <li class="nav-item dropdown dropdown-hover-lg">
+                    <a class="nav-link dropdown-toggle py-2 py-lg-1" href="{{ url_for('contact_page') }}"
+                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        Contact Us
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
+                        <li><a class="dropdown-item" href="{{ url_for('contact_page') }}">Contact form</a></li>
+                        <li><a class="dropdown-item" href="tel:+918239117196">Call +91 8239117196</a></li>
+                        <li><a class="dropdown-item" href="mailto:cakefactorykota@gmail.com">Email us</a></li>
+                    </ul>
+                </li>
+
+                {# Account / Auth #}
+                <li class="nav-item dropdown dropdown-hover-lg">
+                    <a class="nav-link dropdown-toggle py-2 py-lg-1" href="#"
+                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        {% if current_user %}
+                            {{ current_user.name }}
+                        {% else %}
+                            Account
+                        {% endif %}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
+                        {% if current_user %}
+                            {% if current_user.role == 'admin' %}
+                            <li><a class="dropdown-item" href="{{ url_for('admin_orders_page') }}">Manage Orders</a></li>
+                            {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for('track_order_page') }}">Track Order</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ url_for('logout_page') }}">Logout</a></li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for('login_page') }}">Login</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('register_page') }}">Register</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('track_order_page') }}">Track Order</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                {# Cart dropdown #}
+                <li class="nav-item dropdown dropdown-hover-lg ms-lg-2">
+                    <button type="button" class="nav-link btn btn-link text-dark border-0 dropdown-toggle-no-caret py-2 py-lg-1 px-2 position-relative"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Shopping cart">
+                        <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                        {% if cart_item_count %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge-count">{{ cart_item_count }}</span>
+                        {% endif %}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end shadow border-0 p-3 cart-dropdown-menu">
+                        <h6 class="dropdown-header px-0 pt-0">Your cart ({{ cart_item_count }})</h6>
+                        {% if cart_preview_lines %}
+                        <ul class="list-unstyled small mb-3" style="max-height: 220px; overflow-y: auto;">
+                            {% for line in cart_preview_lines %}
+                            <li class="d-flex justify-content-between gap-2 py-1 border-bottom border-light">
+                                <span class="text-truncate">{{ line.product.name }} × {{ line.quantity }}</span>
+                                <span class="text-nowrap">₹{{ '%.0f'|format(line.line_total) }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <p class="small fw-bold mb-2" style="color: var(--primary-green);">Subtotal: ₹{{ '%.0f'|format(cart_preview_subtotal) }} /-</p>
+                        {% else %}
+                        <p class="small text-muted mb-3">Cart is empty.</p>
+                        {% endif %}
+                        <a href="{{ url_for('cart_page') }}" class="btn btn-outline-success btn-sm w-100 mb-2">View cart</a>
+                        <a href="{{ url_for('order_page') }}" class="btn btn-order btn-sm w-100">Checkout</a>
+                    </div>
+                </li>
+
+                <li class="nav-item mt-2 mt-lg-0 ms-lg-1">
+                    <a class="nav-link btn-order btn-order-sm py-2 py-lg-1 px-3" href="{{ url_for('order_page') }}">Order Now</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

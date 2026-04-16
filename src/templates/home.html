@@ -1,0 +1,934 @@
+{% extends "base.html" %}
+
+{% block title %}Home - FreshBites Bakery{% endblock %}
+
+{% block content %}
+<style>
+    /* --- Full Screen Carousel Hero --- */
+    #heroCarousel {
+        margin-top: -20px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .carousel-item {
+        height: 80vh; /* Laptop height */
+        min-height: 500px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    /* Dark/Light Overlay for readability */
+    .carousel-item::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.5));
+    }
+
+    /* Text Content Styling (Right Aligned) */
+    .hero-content {
+        position: absolute;
+        right: 8%;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: 500px;
+        text-align: right;
+        z-index: 10;
+        background-color: rgba(255, 255, 255, 0.4);
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+    }
+
+    .hero-title {
+        font-family: 'Playfair Display', serif;
+        color: var(--primary-green);
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        line-height: 1.1;
+    }
+
+    .hero-desc {
+        color: var(--text-dark);
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+    }
+
+    .btn-hero {
+        background-color: var(--primary-yellow);
+        color: var(--text-dark) !important;
+        padding: 12px 35px;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn-hero:hover {
+        background-color: var(--primary-green);
+        color: white !important;
+        transform: scale(1.05);
+    }
+       /* Images ko ek size ka banane ke liye */
+    .menu-img {
+        height: 280px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .menu-card {
+        transition: all 0.3s ease;
+        border-radius: 20px !important;
+        overflow: hidden;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+
+    .menu-card:hover .menu-img {
+        transform: scale(1.1);
+    }
+
+    /* Green and Yellow Theme accents */
+    .badge.bg-success {
+        background-color: var(--primary-green) !important;
+        color: var(--primary-yellow);
+    }
+
+     /* --- Story Section Styling --- */
+    .story-container {
+        position: relative;
+        padding: 100px 0;
+        margin: 50px 0;
+        /* Ek bahut hi light aur clean aesthetic image */
+        background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
+                          url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1600'); 
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed; /* Parallax effect: scroll karte waqt image piche rukegi */
+    }
+
+    .story-content {
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 50px;
+        border-radius: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    }
+
+    .story-sub {
+        color: var(--primary-yellow);
+        font-size: 1.1rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .story-title {
+        font-family: 'Playfair Display', serif;
+        color: var(--primary-green);
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .golden-divider {
+        width: 60px;
+        height: 2px;
+        background-color: var(--primary-yellow);
+        margin: 0 auto 30px;
+    }
+
+    .story-text {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    /* Golden Highlight for specific words */
+    .gold-highlight {
+        color: #b8860b; /* Dark Golden Color */
+        font-weight: 600;
+        border-bottom: 1px dashed var(--primary-yellow);
+        padding: 0 2px;
+    }
+
+     /* Gallery Specific Styles */
+    .gallery-heading {
+        font-family: 'Playfair Display', serif;
+        color: var(--primary-green);
+        font-size: 3rem;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .gallery-card {
+        position: relative;
+        height: 300px;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.4s ease;
+    }
+
+    .gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    /* Hover Overlay Effect */
+    .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(45, 106, 79, 0.7); /* Greenish Overlay */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .overlay-text {
+        color: var(--primary-yellow);
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: 2px solid var(--primary-yellow);
+        padding: 10px 20px;
+        border-radius: 5px;
+        transform: translateY(20px);
+        transition: transform 0.4s ease;
+    }
+
+    /* Hover States */
+    .gallery-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    .gallery-card:hover img {
+        transform: scale(1.15);
+    }
+
+    .gallery-card:hover .gallery-overlay {
+        opacity: 1;
+    }
+
+    .gallery-card:hover .overlay-text {
+        transform: translateY(0);
+    }
+
+     /* Tradition Section Styling */
+    .tradition-main-heading {
+        font-family: 'Playfair Display', serif;
+        color: var(--primary-green);
+        font-size: 3rem;
+        font-weight: 800;
+    }
+
+    .tradition-divider {
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary-green), var(--primary-yellow));
+        margin: 15px auto;
+        border-radius: 2px;
+    }
+
+    .tradition-sub-text {
+        font-size: 1.1rem;
+        color: #555;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Image Styling */
+    .tradition-img-wrapper {
+        position: relative;
+        padding: 10px;
+    }
+
+    .rounded-custom {
+        border-radius: 50px 5px 50px 5px; /* Unique shape for elegant look */
+        border: 8px solid white;
+    }
+
+    .experience-badge {
+        position: absolute;
+        bottom: -20px;
+        right: -10px;
+        background-color: var(--primary-green);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .experience-badge .years {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary-yellow);
+    }
+
+    .experience-badge .exp-text {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Features Styling */
+    .feature-icon {
+        font-size: 1.5rem;
+        margin-right: 20px;
+        background: white;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .feature-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .tradition-main-heading { font-size: 2.2rem; }
+        .feature-title { font-size: 1.8rem; }
+        .experience-badge { padding: 10px; bottom: 0; right: 0; }
+    }
+
+    /* Tablet and Mobile adjustment */
+    @media (max-width: 992px) {
+        .gallery-heading { font-size: 2.2rem; }
+        .gallery-card { height: 250px; }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .story-container {
+            padding: 60px 0;
+            background-attachment: scroll; /* Mobile par parallax band taaki smooth chale */
+        }
+        .story-title {
+            font-size: 2.5rem;
+        }
+        .story-content {
+            padding: 30px 15px;
+        }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .carousel-item { height: 60vh; }
+        .hero-content {
+            right: 5%; left: 5%; 
+            top: 50%; text-align: center;
+            padding: 20px;
+        }
+        .hero-title { font-size: 2.2rem; }
+    }
+</style>
+
+<!-- first page section -->
+
+<div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+    
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+    </div>
+
+    <div class="carousel-inner">
+        <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1519340333755-56e9c1d04579?q=80&w=1600');">
+            <div class="hero-content">
+                <h1 class="hero-title">Sweet <br>Perfection</h1>
+                <p class="hero-desc">Experience the bliss of handcrafted cakes baked fresh every morning.</p>
+                <a href="/order" class="btn-hero">Order Now</a>
+            </div>
+        </div>
+
+        <div class="carousel-item" style="background-image: url('https://thumbs.dreamstime.com/b/happy-birthday-cake-beautiful-background-balloons-candles-pastel-colors-pink-peach-soft-light-blurred-high-resolution-336893906.jpg');">
+            <div class="hero-content">
+                <h1 class="hero-title">Natural <br>Ingredients</h1>
+                <p class="hero-desc">We use only organic and premium ingredients for that rich, authentic taste.</p>
+                <a href="/products" class="btn-hero">View Menu</a>
+            </div>
+        </div>
+
+        <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=1600');">
+            <div class="hero-content">
+                <h1 class="hero-title">Celebrate <br>Moments</h1>
+                <p class="hero-desc">Making your special occasions even more memorable with custom designs.</p>
+                <a href="/contact" class="btn-hero">Book Custom Cake</a>
+            </div>
+        </div>
+
+        <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=1600');">
+            <div class="hero-content">
+                <h1 class="hero-title">Morning <br>Treats</h1>
+                <p class="hero-desc">Start your day with our signature muffins and buttery croissants.</p>
+                <a href="/shops" class="btn-hero">Find a Shop</a>
+            </div>
+        </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+
+    <!-- second page section -->
+
+
+
+
+<div class="story-container" id="our-story">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 text-center story-content">
+                <h4 class="story-sub">Since 1998</h4>
+                <h2 class="story-title">Our Story</h2>
+                
+                <div class="golden-divider"></div>
+
+                <p class="story-text">
+                    Hamari shuruat ek chote se kitchen aur <span class="gold-highlight">bahut saare sapno</span> ke saath hui thi. 
+                    Humne hamesha mana hai ki baking sirf ek kaam nahi, balki ek <span class="gold-highlight">Art</span> hai. 
+                    Har cake jo hum banate hain, usme wahi purani <span class="gold-highlight">family recipes</span> aur 
+                    fresh ingredients ka magic hota hai.
+                </p>
+                <p class="story-text">
+                    Aaj, <span class="gold-highlight">CFK Bakery</span> sirf ek naam nahi, balki hazaro 
+                    celebrations ka ek hissa ban chuka hai. Hum koshish karte hain ki har bite mein aapko 
+                    wahi <span class="gold-highlight">pyaar aur mithas</span> mile jo humne pehle din se shuru ki thi.
+                </p>
+
+                <div class="signature mt-4">
+                    <p class="mb-0 text-muted">Baking with Heart,</p>
+                    <h5 style="color: var(--primary-green); font-family: 'Playfair Display', serif;">The CFK Family</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- third page section -->
+
+
+
+<div class="container my-5 py-5" id="our-menu">
+    <div class="text-center mb-5">
+        <h4 style="color: var(--primary-yellow); font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">Our Menu</h4>
+        <h2 style="color: var(--primary-green); font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700;">What will you wish for?</h2>
+        <div style="width: 80px; height: 3px; background: var(--primary-yellow); margin: 20px auto;"></div>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm menu-card">
+                <div class="position-relative overflow-hidden">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgUWCov_MvlUHip_Eh8PHDcvAIx1TPGsGfcw&s" class="card-img-top menu-img" alt="Chocolate Truffle">
+                    <span class="badge bg-success position-absolute top-0 end-0 m-3">Best Seller</span>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: var(--primary-green);">Royal Chocolate Truffle</h5>
+                    <p class="card-text text-muted small"><strong>Flavor:</strong> Deep Belgian Chocolate<br>
+                    <strong>Taste:</strong> Rich, fudgy, and melt-in-the-mouth texture with dark chocolate ganache.</p>
+                    <h6 class="text-success fw-bold d-flex align-items-center justify-content-center mt-2">
+                        <del class="text-muted small me-2" style="font-size: 0.9rem;">₹382</del> 
+                        <span>₹229 /-</span>
+                    </h6>
+                    <form method="post" action="{{ url_for('cart_page') }}" class="mt-3">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="30">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-order btn-sm w-100 py-2">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm menu-card">
+                <img src="https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?q=80&w=800" class="card-img-top menu-img" alt="Red Velvet">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: var(--primary-green);">Crimson Red Velvet</h5>
+                    <p class="card-text text-muted small"><strong>Flavor:</strong> Mild Cocoa & Buttermilk<br>
+                    <strong>Taste:</strong> Velvety smooth layers with premium cream cheese frosting.</p>
+                    <h6 class="text-success fw-bold d-flex align-items-center justify-content-center mt-2">
+                        <del class="text-muted small me-2" style="font-size: 0.9rem;">₹633</del> 
+                        <span>₹379 /-</span>
+                    </h6>
+                    <form method="post" action="{{ url_for('cart_page') }}" class="mt-3">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="10">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-order btn-sm w-100 py-2">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm menu-card">
+                <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=800" class="card-img-top menu-img" alt="Vanilla Berry">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: var(--primary-green);">Vanilla Berry Blast</h5>
+                    <p class="card-text text-muted small"><strong>Flavor:</strong> Exotic Vanilla & Fresh Berries<br>
+                    <strong>Taste:</strong> Light, refreshing, and tangy with real fruit chunks.</p>
+                    <h6 class="text-success fw-bold d-flex align-items-center justify-content-center mt-2">
+                        <del class="text-muted small me-2" style="font-size: 0.9rem;">₹382</del> 
+                        <span>₹229 /-</span>
+                    </h6>
+                    <form method="post" action="{{ url_for('cart_page') }}" class="mt-3">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="4">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-order btn-sm w-100 py-2">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm menu-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOTysvGD8QgyWdLfBX2_5Dxj0oKVal-XhDiA&s" class="card-img-top menu-img" alt="Butterscotch">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: var(--primary-green);">Golden Butterscotch</h5>
+                    <p class="card-text text-muted small"><strong>Flavor:</strong> Caramelized Butter & Praline<br>
+                    <strong>Taste:</strong> Sweet and salty crunch with smooth caramel drizzle.</p>
+                    <h6 class="text-success fw-bold d-flex align-items-center justify-content-center mt-2">
+                        <del class="text-muted small me-2" style="font-size: 0.9rem;">₹382</del> 
+                        <span>₹299/-</span>
+                    </h6>
+                    <form method="post" action="{{ url_for('cart_page') }}" class="mt-3">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="12">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-order btn-sm w-100 py-2">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm menu-card">
+                <img src="https://images.unsplash.com/photo-1519340333755-56e9c1d04579?q=80&w=800" class="card-img-top menu-img" alt="Lemon Cake">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: var(--primary-green);">Lemon Sunshine</h5>
+                    <p class="card-text text-muted small"><strong>Flavor:</strong> Zesty Citrus Lemon<br>
+                    <strong>Taste:</strong> Tangy, moist, and perfect for tea-time celebrations.</p>
+                    <h6 class="text-success fw-bold d-flex align-items-center justify-content-center mt-2">
+                        <del class="text-muted small me-2" style="font-size: 0.9rem;">₹633</del> 
+                        <span>₹379/-</span>
+                    </h6>
+                    <form method="post" action="{{ url_for('cart_page') }}" class="mt-3">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="1">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-order btn-sm w-100 py-2">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm menu-card">
+                <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=800" class="card-img-top menu-img" alt="Pineapple Cake">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold" style="color: var(--primary-green);">Pineapple Paradise</h5>
+                    <p class="card-text text-muted small"><strong>Flavor:</strong> Tropical Pineapple<br>
+                    <strong>Taste:</strong> Juicy pineapple slices with whipped cream and cherry.</p>
+                    <h6 class="text-success fw-bold d-flex align-items-center justify-content-center mt-2">
+                        <del class="text-muted small me-2" style="font-size: 0.9rem;">₹382</del> 
+                        <span>₹229 /-</span>
+                    </h6>
+                    <form method="post" action="{{ url_for('cart_page') }}" class="mt-3">
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="2">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-order btn-sm w-100 py-2">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- forth section -->
+
+
+
+<div class="container my-5 py-5" id="gallery">
+    <div class="text-center mb-5">
+        <h4 style="color: var(--primary-yellow); font-weight: 600; letter-spacing: 2px; text-transform: uppercase;">A Visual Treat</h4>
+        <h2 class="gallery-heading">Signature Creations</h2>
+        <p class="text-muted">Har slice mein ek nayi kahani, har bite mein ek naya ehsas.</p>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDU-_QRCM-Mccv4y_3c7jflqHe4Y21ug-OUw&s" alt="Cake 1">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Dark Chocolate</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=600" alt="Cake 2">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Berry Delight</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=600" alt="Cake 3">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Creamy Vanilla</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1519340333755-56e9c1d04579?q=80&w=600" alt="Cake 4">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Lemon Zest</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?q=80&w=600" alt="Cake 5">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Red Velvet</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=600" alt="Cake 6">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Strawberry Pink</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=600" alt="Cake 7">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Caramel Swirl</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?q=80&w=600" alt="Cake 8">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Rainbow Slice</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=600" alt="Cake 9">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Espresso Roast</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStdKNYxhGWjomr2djfhHaWMF5_VOer8ggzYw&s" alt="Cake 10">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Honey Glaze</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwK9j5jPVXKxXFr_azbdZFacmcM08U-rR29g&s" alt="Cake 11">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Wedding Bliss</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="gallery-card">
+                <img src="https://cdnnew.igp.com/f_auto,q_auto,t_pnopt20prodlp/products/p-truffle-ganache-luxe-347291-1.jpg" alt="Cake 12">
+                <div class="gallery-overlay">
+                    <div class="overlay-text">Midnight Truffle</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- fifth section -->
+
+
+
+<div class="container my-5 py-5 tradition-section">
+    <div class="text-center mb-5">
+        <h2 class="tradition-main-heading">About Our Tradition</h2>
+        <div class="tradition-divider"></div>
+        <p class="tradition-sub-text px-md-5">
+            Hamara har cake ek sadiyo purani parampara aur modern innovation ka sangam hai. 
+            Hum aaj bhi wahi tarike istemal karte hain jo humne apne buzurgon se seekhe hain.
+        </p>
+    </div>
+
+    <div class="row align-items-center mt-4">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="tradition-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=800" alt="Tradition of Baking" class="img-fluid rounded-custom shadow-lg">
+                <div class="experience-badge">
+                    <span class="years">25+</span>
+                    <span class="exp-text">Years of Quality</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 ps-md-5">
+            <h3 class="feature-title mb-4">Old World Magic, <br><span style="color: var(--primary-yellow);">New World Taste</span></h3>
+            
+            <div class="d-flex mb-4">
+                <div class="feature-icon">✨</div>
+                <div>
+                    <h5 class="fw-bold mb-1">Authentic Stone Oven Baking</h5>
+                    <p class="text-muted small">Hum aaj bhi apne signature cakes ko traditional stone ovens mein bake karte hain, jisse unhe milta hai wahi asli crunch aur soft texture.</p>
+                </div>
+            </div>
+
+            <div class="d-flex mb-4">
+                <div class="feature-icon">🌿</div>
+                <div>
+                    <h5 class="fw-bold mb-1">Hand-Picked Natural Ingredients</h5>
+                    <p class="text-muted small">Koi artificial flavors nahi! Hum sirf local farmers se liye gaye fresh fruits aur high-quality vanilla beans ka upyog karte hain.</p>
+                </div>
+            </div>
+
+            <div class="d-flex mb-4">
+                <div class="feature-icon">❤️</div>
+                <div>
+                    <h5 class="fw-bold mb-1">Baked With Pure Intentions</h5>
+                    <p class="text-muted small">Hamare liye ye sirf ek business nahi, har cake ek emotion hai jo hum aapke khaas dinon ke liye pure dil se taiyar karte hain.</p>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-success rounded-pill px-4 py-2 mt-3">Discover More</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- sixth section -->
+
+
+<div class="video-tradition-container">
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="{{url_for('static' , filename='images/cake.mp4')}}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="video-overlay">
+        <div class="container text-center">
+            <div class="video-content-box">
+                <span class="video-sub">Witness the Craft</span>
+                <h2 class="video-title">Where Tradition <br>Meets Art</h2>
+                <div class="video-divider"></div>
+                <p class="video-description">
+                    Hamare har cake ke piche ghanto ki mehnat aur sadiyo ka hunar hota hai. 
+                    Dekhiye kaise hum ek simple dough ko ek masterpiece mein badalte hain.
+                </p>
+                <div class="mt-4">
+                    <a href="#gallery" class="video-btn">Explore Our Creations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Video Section Styling */
+    .video-tradition-container {
+        position: relative;
+        width: 100%;
+        height: 80vh; /* Viewport height */
+        min-height: 500px;
+        overflow: hidden;
+        margin: 80px 0;
+        border-radius: 30px; /* Modern curved edges */
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    /* Full screen video setup */
+    .bg-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+    }
+
+    /* Parda (Overlay) to make text readable */
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* Dark shade for luxury feel */
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .video-content-box {
+        max-width: 700px;
+        color: white;
+        padding: 30px;
+        animation: fadeInUp 1.5s ease;
+    }
+
+    .video-sub {
+        color: var(--primary-yellow);
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .video-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 4rem;
+        font-weight: 800;
+        margin: 15px 0;
+        line-height: 1.1;
+    }
+
+    .video-divider {
+        width: 60px;
+        height: 3px;
+        background-color: var(--primary-yellow);
+        margin: 20px auto;
+    }
+
+    .video-description {
+        font-size: 1.2rem;
+        font-weight: 300;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    /* Custom Button */
+    .video-btn {
+        display: inline-block;
+        padding: 12px 35px;
+        border: 2px solid var(--primary-yellow);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .video-btn:hover {
+        background-color: var(--primary-yellow);
+        color: #000 !important;
+        transform: scale(1.05);
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .video-title { font-size: 2.5rem; }
+        .video-tradition-container { height: auto; min-height: 550px; border-radius: 0; }
+        .video-content-box { padding: 15px; margin-top: 20px; }
+    }
+</style>
+
+
+
+
+
+{% endblock %}
+
+
+

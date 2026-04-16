@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - FreshBites Bakery{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="text-center mb-5">
+            <h4 class="text-uppercase" style="color: var(--primary-yellow); letter-spacing: 2px;">Our Story</h4>
+            <h1 class="display-5 fw-bold" style="font-family: 'Playfair Display', serif; color: var(--primary-green);">
+                FreshBites Bakery
+            </h1>
+            <p class="lead text-muted mx-auto" style="max-width: 640px;">
+                Since 1998 we have baked with family recipes, honest ingredients, and a simple promise:
+                every celebration deserves something delicious.
+            </p>
+        </div>
+
+        <div class="row g-4 align-items-center mb-5">
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200" alt="Bakery kitchen"
+                    class="img-fluid rounded-4 shadow">
+            </div>
+            <div class="col-md-6">
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--primary-green);">Tradition meets today</h3>
+                <p class="text-muted">
+                    We still slow-bake our signature cakes, source fruit locally when we can, and finish every order
+                    with the same care as the first cake we ever sold in Kota.
+                </p>
+                <ul class="text-muted">
+                    <li>Hand-finished cakes and pastries</li>
+                    <li>Custom designs for birthdays and weddings</li>
+                    <li>Two convenient branches in Kota</li>
+                </ul>
+                <a href="{{ url_for('products_page') }}" class="btn btn-order mt-2">Browse products</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

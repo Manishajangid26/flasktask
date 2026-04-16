@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Cart - FreshBites Bakery{% endblock %}
+
+{% block content %}
+<style>
+@media (max-width: 768px) {
+    .table-responsive { overflow-x: hidden; }
+    .table th, .table td { padding: 0.4rem 0.1rem !important; font-size: 0.75rem !important; vertical-align: middle; }
+    .table img { width: 35px !important; height: 35px !important; border-radius: 4px; }
+    .table input { max-width: 2.2rem !important; padding: 0.1rem; font-size: 0.75rem; text-align: center; }
+    .btn-sm { font-size: 0.7rem; padding: 0.2rem 0.3rem; }
+    .fw-semibold { font-size: 0.75rem; }
+    .gap-3 { gap: 0.3rem !important; }
+}
+</style>
+<h1 class="mb-4" style="font-family: 'Playfair Display', serif; color: var(--primary-green);">Your cart</h1>
+
+{% if not lines %}
+<p class="text-muted">Your cart is empty.</p>
+<a href="{{ url_for('products_page') }}" class="btn btn-order">Browse products</a>
+{% else %}
+<form id="cart-update" method="post" action="{{ url_for('cart_page') }}" class="d-inline">
+    <input type="hidden" name="action" value="update">
+</form>
+
+<div class="table-responsive">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th class="text-end">Price</th>
+                <th class="text-center" style="width: 8rem;">Qty</th>
+                <th class="text-end">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for line in lines %}
+            {% set p = line.product %}
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="{{ p.image_url }}" alt="" class="rounded" style="width: 64px; height: 64px; object-fit: cover;">
+                        <span class="fw-semibold" style="color: var(--primary-green);">{{ p.name }}</span>
+                    </div>
+                </td>
+                <td class="text-end">₹{{ '%.0f'|format(p.price) }}</td>
+                <td class="text-center">
+                    <input type="number" class="form-control form-control-sm mx-auto" name="qty_{{ p.id }}"
+                        form="cart-update" value="{{ line.quantity }}" min="0" max="99" style="max-width: 5rem;">
+                </td>
+                <td class="text-end fw-semibold">₹{{ '%.0f'|format(line.line_total) }}</td>
+                <td class="text-end">
+                    <form method="post" action="{{ url_for('cart_page') }}" class="d-inline">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="product_id" value="{{ p.id }}">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash d-md-none"></i>
+                            <span class="d-none d-md-inline">Remove</span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<p class="small text-muted mb-3">Set quantity to 0 to remove, or tap Remove. Click update to apply quantity changes.</p>
+<div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">
+    <button type="submit" form="cart-update" class="btn btn-outline-success rounded-pill">Update cart</button>
+    <p class="mb-0 fs-5 fw-bold" style="color: var(--primary-green);">Total: ₹{{ '%.0f'|format(subtotal) }} /-</p>
+</div>
+
+<div class="mt-4 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('products_page') }}" class="btn btn-outline-secondary rounded-pill">Continue shopping</a>
+    <a href="{{ url_for('order_page') }}" class="btn btn-order">Proceed to order</a>
+</div>
+{% endif %}
+{% endblock %}

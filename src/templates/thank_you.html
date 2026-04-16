@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Thank you - FreshBites Bakery{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-5 mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-green);">
+        Thank you!
+    </h1>
+    <p class="lead text-muted mx-auto" style="max-width: 520px;">
+        We appreciate your order. Our team will prepare your treats with care.
+        {% if order_id %}
+        You can keep this reference: <strong>#{{ order_id }}</strong>.
+        {% endif %}
+    </p>
+    <div class="mt-4 d-flex gap-2 justify-content-center flex-wrap">
+        <a href="{{ url_for('homepage') }}" class="btn btn-order">Back to home</a>
+        <a href="{{ url_for('contact_page') }}" class="btn btn-outline-success rounded-pill">Contact us</a>
+    </div>
+</div>
+{% endblock %}
