@@ -281,7 +281,7 @@ def menu_page():
     occasion_filter = request.args.get('occasion', "").strip().lower()
     dietary_filter = request.args.get('dietary', "").strip().lower()
     
-    allowed_occasions = ["birthday", "anniversary", "wedding", "party"]
+    allowed_occasions = ["birthday", "anniversary", "wedding", "party", "customer_choice"]
     active_occasion = occasion_filter if occasion_filter in allowed_occasions else None
     
     from src.models import Product

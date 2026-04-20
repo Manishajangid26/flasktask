@@ -313,6 +313,122 @@
         font-weight: 700;
         line-height: 1.2;
     }
+     /* Video Section Styling */
+    .video-tradition-container {
+        position: relative;
+        width: 100%;
+        height: 80vh; /* Viewport height */
+        min-height: 500px;
+        overflow: hidden;
+        margin: 80px 0;
+        border-radius: 30px; /* Modern curved edges */
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    /* Full screen video setup */
+    .bg-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+    }
+
+    /* Parda (Overlay) to make text readable */
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4); /* Dark shade for luxury feel */
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .video-content-box {
+        max-width: 700px;
+        color: white;
+        padding: 30px;
+        animation: fadeInUp 1.5s ease;
+        pointer-events: auto;
+    }
+
+    .video-sub {
+        color: var(--primary-yellow);
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .video-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 4rem;
+        font-weight: 800;
+        margin: 15px 0;
+        line-height: 1.1;
+    }
+
+    .video-divider {
+        width: 60px;
+        height: 3px;
+        background-color: var(--primary-yellow);
+        margin: 20px auto;
+    }
+
+    .video-description {
+        font-size: 1.2rem;
+        font-weight: 300;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    /* Custom Button */
+    .video-btn {
+        display: inline-block;
+        padding: 12px 35px;
+        border: 2px solid var(--primary-yellow);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .video-btn:hover {
+        background-color: var(--primary-yellow);
+        color: #000 !important;
+        transform: scale(1.05);
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .video-title { font-size: 2.5rem; }
+        .video-tradition-container { height: auto; min-height: 550px; border-radius: 0; }
+        .video-content-box { padding: 15px; margin-top: 20px; }
+    }
+
 
     @keyframes float {
         0% { transform: translateY(0px); }
@@ -356,6 +472,21 @@
             padding: 20px;
         }
         .hero-title { font-size: 2.2rem; }
+    }
+    .gift-badge {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b) !important;
+        border: 2px solid #fff;
+    }
+    @keyframes pulseGift {
+        0% { transform: scale(1) translateY(0); box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.7); }
+        50% { transform: scale(1.08) translateY(-3px); box-shadow: 0 0 0 12px rgba(255, 65, 108, 0); }
+        100% { transform: scale(1) translateY(0); box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
+    }
+    @keyframes wiggleGift {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-10deg); }
+        50% { transform: rotate(10deg); }
+        75% { transform: rotate(-10deg); }
     }
 </style>
 
@@ -424,6 +555,8 @@
             <div class="col-lg-8 col-md-10 text-center story-content">
                 <h4 class="story-sub">Since 1998</h4>
                 <h2 class="story-title">Our Story</h2>
+                <div class="golden-divider"></div>
+                <h4 style="color: var(--primary-green); font-size: medium;">Hum different cities m bhi order place krwate hai</h4>
                 
                 <div class="golden-divider"></div>
 
@@ -464,7 +597,10 @@
     <div class="row g-4">
         
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm menu-card">
+            <div class="card h-100 border-0 shadow-sm menu-card position-relative">
+                <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold position-absolute top-0 start-0 m-3" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; z-index: 5;">
+                    <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
+                </span>
                 <div class="position-relative overflow-hidden">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgUWCov_MvlUHip_Eh8PHDcvAIx1TPGsGfcw&s" class="card-img-top menu-img" alt="Chocolate Truffle">
                     <span class="badge bg-success position-absolute top-0 end-0 m-3">Best Seller</span>
@@ -488,7 +624,10 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm menu-card">
+            <div class="card h-100 border-0 shadow-sm menu-card position-relative">
+                <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold position-absolute top-0 start-0 m-3" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; z-index: 5;">
+                    <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
+                </span>
                 <img src="https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?q=80&w=800" class="card-img-top menu-img" alt="Red Velvet">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold" style="color: var(--primary-green);">Crimson Red Velvet</h5>
@@ -509,7 +648,10 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm menu-card">
+            <div class="card h-100 border-0 shadow-sm menu-card position-relative">
+                <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold position-absolute top-0 start-0 m-3" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; z-index: 5;">
+                    <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
+                </span>
                 <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=800" class="card-img-top menu-img" alt="Vanilla Berry">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold" style="color: var(--primary-green);">Vanilla Berry Blast</h5>
@@ -530,7 +672,10 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm menu-card">
+            <div class="card h-100 border-0 shadow-sm menu-card position-relative">
+                <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold position-absolute top-0 start-0 m-3" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; z-index: 5;">
+                    <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
+                </span>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOTysvGD8QgyWdLfBX2_5Dxj0oKVal-XhDiA&s" class="card-img-top menu-img" alt="Butterscotch">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold" style="color: var(--primary-green);">Golden Butterscotch</h5>
@@ -551,7 +696,10 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm menu-card">
+            <div class="card h-100 border-0 shadow-sm menu-card position-relative">
+                <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold position-absolute top-0 start-0 m-3" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; z-index: 5;">
+                    <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
+                </span>
                 <img src="https://images.unsplash.com/photo-1519340333755-56e9c1d04579?q=80&w=800" class="card-img-top menu-img" alt="Lemon Cake">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold" style="color: var(--primary-green);">Lemon Sunshine</h5>
@@ -572,7 +720,10 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm menu-card">
+            <div class="card h-100 border-0 shadow-sm menu-card position-relative">
+                <span class="badge bg-danger text-white shadow rounded-pill px-3 py-2 fw-bold position-absolute top-0 start-0 m-3" style="animation: pulseGift 2s infinite; font-size: 0.8rem; z-index: 5;">
+                    <i class="fa-solid fa-gift me-1"></i> Free Gift!
+                </span>
                 <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=800" class="card-img-top menu-img" alt="Pineapple Cake">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold" style="color: var(--primary-green);">Pineapple Paradise</h5>
@@ -784,15 +935,30 @@
 <!-- sixth section -->
 
 
-<div class="video-tradition-container">
-    <video autoplay muted loop playsinline class="bg-video">
-        <source src="{{url_for('static' , filename='images/cake.mp4')}}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+<div id="videoCarousel" class="carousel slide carousel-fade video-tradition-container" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner h-100">
+        <div class="carousel-item active h-100">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="{{url_for('static' , filename='images/cake.mp4')}}" type="video/mp4">
+            </video>
+        </div>
+        <div class="carousel-item h-100">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="{{url_for('static' , filename='images/cake2.mp4')}}" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    
+    <button class="carousel-control-prev" type="button" data-bs-target="#videoCarousel" data-bs-slide="prev" style="z-index: 10;">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#videoCarousel" data-bs-slide="next" style="z-index: 10;">
+        <span class="carousel-control-next-icon"></span>
+    </button>
 
-    <div class="video-overlay">
+    <div class="video-overlay pointer-event-none">
         <div class="container text-center">
-            <div class="video-content-box">
+            <div class="video-content-box pt-5 mt-5">
                 <span class="video-sub">Witness the Craft</span>
                 <h2 class="video-title">Where Tradition <br>Meets Art</h2>
                 <div class="video-divider"></div>
@@ -808,121 +974,7 @@
     </div>
 </div>
 
-<style>
-    /* Video Section Styling */
-    .video-tradition-container {
-        position: relative;
-        width: 100%;
-        height: 80vh; /* Viewport height */
-        min-height: 500px;
-        overflow: hidden;
-        margin: 80px 0;
-        border-radius: 30px; /* Modern curved edges */
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
 
-    /* Full screen video setup */
-    .bg-video {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: 1;
-        transform: translate(-50%, -50%);
-        object-fit: cover;
-    }
-
-    /* Parda (Overlay) to make text readable */
-    .video-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.4); /* Dark shade for luxury feel */
-        z-index: 2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .video-content-box {
-        max-width: 700px;
-        color: white;
-        padding: 30px;
-        animation: fadeInUp 1.5s ease;
-    }
-
-    .video-sub {
-        color: var(--primary-yellow);
-        text-transform: uppercase;
-        letter-spacing: 4px;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-
-    .video-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 4rem;
-        font-weight: 800;
-        margin: 15px 0;
-        line-height: 1.1;
-    }
-
-    .video-divider {
-        width: 60px;
-        height: 3px;
-        background-color: var(--primary-yellow);
-        margin: 20px auto;
-    }
-
-    .video-description {
-        font-size: 1.2rem;
-        font-weight: 300;
-        opacity: 0.9;
-        line-height: 1.6;
-    }
-
-    /* Custom Button */
-    .video-btn {
-        display: inline-block;
-        padding: 12px 35px;
-        border: 2px solid var(--primary-yellow);
-        color: white;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .video-btn:hover {
-        background-color: var(--primary-yellow);
-        color: #000 !important;
-        transform: scale(1.05);
-    }
-
-    /* Fade-in Animation */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .video-title { font-size: 2.5rem; }
-        .video-tradition-container { height: auto; min-height: 550px; border-radius: 0; }
-        .video-content-box { padding: 15px; margin-top: 20px; }
-    }
-</style>
 
 
 

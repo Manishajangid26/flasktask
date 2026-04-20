@@ -6,10 +6,12 @@
 <div class="text-center mb-5">
     <h4 class="text-uppercase" style="color: var(--primary-yellow); letter-spacing: 2px;">Our Tradition</h4>
     <h1 style="font-family: 'Playfair Display', serif; color: var(--primary-green); font-size: 3rem;">Signature Menu</h1>
-    <p class="text-muted">Freshly baked items straight from our kitchen to your heart.</p>
+    <p class="text-muted">Freshly baked items straight from our kitchen to your heart.</p><br>
+    <h4 style="color: var(--primary-green); font-size: medium;">Now Spreading Sweetness Across Cities – Order from Anywhere!</h4>
 </div>
 
 {% set occasions = {
+    'customer_choice': 'Customer Choice',
     'birthday': 'Birthday',
     'anniversary': 'Anniversary',
     'wedding': 'Wedding',
@@ -42,6 +44,13 @@
                     <span class="small fw-semibold" style="letter-spacing: 1px;">Image Pending</span>
                 </div>
                 {% endif %}
+                
+                {# Free Gift Badge #}
+                <div class="position-absolute top-0 start-0 m-3 z-3">
+                    <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
+                    </span>
+                </div>
                 
                 {# Hover Overlay Action #}
                 <div class="position-absolute top-0 end-0 p-3 z-2">
@@ -106,6 +115,21 @@
     .menu-item-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+    }
+    .gift-badge {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b) !important;
+        border: 2px solid #fff;
+    }
+    @keyframes pulseGift {
+        0% { transform: scale(1) translateY(0); box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.7); }
+        50% { transform: scale(1.08) translateY(-3px); box-shadow: 0 0 0 12px rgba(255, 65, 108, 0); }
+        100% { transform: scale(1) translateY(0); box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
+    }
+    @keyframes wiggleGift {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-10deg); }
+        50% { transform: rotate(10deg); }
+        75% { transform: rotate(-10deg); }
     }
     .transition-transform {
         transition: transform 0.6s ease;

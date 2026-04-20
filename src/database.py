@@ -43,7 +43,7 @@ def init_db():
         db.session.commit()
 
     # Check if we specifically need to reset to the updated target items.
-    if db.session.query(Product).count() != 185:
+    if db.session.query(Product).count() != 233:
         db.session.query(OrderItem).delete()
         db.session.query(Order).delete()
         db.session.query(Product).delete()
@@ -619,13 +619,39 @@ def init_db():
                     occasion=occ
                 ))
 
+        # Add 40 customer choice cards with alternating flavours
+        customer_choice_flavours = [
+            ("Strawberry Cake", 300.0, "strawberry", "A delicious strawberry flavored cake."),
+            ("Chocolate Truffle Cake", 350.0, "chocolate", "Rich and decadent chocolate truffle cake."),
+            ("Rich Pineapple Cake", 300.0, "rich", "Classic rich pineapple cake."),
+            ("Rasmalai Cake", 350.0, "rasmalai", "Fusion rasmalai flavored cake.")
+        ]
+        
+        for i in range(10):
+            for flavour, price, prefix, desc in customer_choice_flavours:
+                img = f"./static/images/{prefix}{str(i) if i > 0 else ''}.png"
+                seed.append(Product(
+                    name=f"Customer Choice {flavour} {i+1}",
+                    description=desc,
+                    price=price,
+                    image_url=img,
+                    category="Cakes",
+                    occasion="customer_choice"
+                ))
+
         db.session.add_all(seed)
         db.session.commit()
 
 
 def list_products(category=None):
     q = db.session.query(Product).order_by(Product.id)
-    if category:
+    if category in ("birthday", "wedding", "party"):
+        q = q.filter(Product.occasion == category)
+    elif category == "eggless":
+        q = q.filter(Product.description.ilike('%eggless%') | Product.name.ilike('%eggless%'))
+    elif category == "nonveg":
+        q = q.filter(~Product.description.ilike('%eggless%'), ~Product.name.ilike('%eggless%'))
+    elif category:
         q = q.filter(Product.category == category)
     rows = q.all()
     return [_product_to_dict(p) for p in rows]
