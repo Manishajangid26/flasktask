@@ -37,22 +37,20 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
                         <li><a class="dropdown-item" href="{{ url_for('homepage') }}">Homepage</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('homepage') }}#our-menu">Our Menu</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('homepage') }}#our-story">Our story</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('products_page') }}">Shop all cakes</a></li>
-                    </ul>
+                         </ul>
                 </li>
 
                 {# Products List #}
                 <li class="nav-item dropdown dropdown-hover-lg">
                     <a class="nav-link dropdown-toggle py-2 py-lg-1" href="#"
                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        Products
+                        Our Menu
                     </a>
                     <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
                         <li><a class="dropdown-item" href="{{ url_for('menu_page') }}">Menu</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('menu_page', dietary='eggless') }}">Eggless</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('menu_page', dietary='with_egg') }}">Contains Egg</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('products_page') }}">Shop all cakes</a></li>
+                   
                     </ul>
                 </li>
 
@@ -63,9 +61,7 @@
                         Shops
                     </a>
                     <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
-                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}">Both branches</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}#branch-1">Branch 1 — Mahaveer Nagar</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}#branch-2">Branch 2 — City Mall</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('products_page') }}">Our products</a></li>
                     </ul>
                 </li>
 
@@ -76,9 +72,8 @@
                         About Us
                     </a>
                     <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
-                        <li><a class="dropdown-item" href="{{ url_for('about_page') }}">About FreshBites</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('about_page') }}">About CFK</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('homepage') }}#our-story">Story on home</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('products_page') }}">Our products</a></li>
                     </ul>
                 </li>
 
@@ -90,8 +85,9 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-sm shadow border-0">
                         <li><a class="dropdown-item" href="{{ url_for('contact_page') }}">Contact form</a></li>
-                        <li><a class="dropdown-item" href="tel:+918239117196">Call +91 8239117196</a></li>
-                        <li><a class="dropdown-item" href="mailto:cakefactorykota@gmail.com">Email us</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}">Both branches</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}#branch-1">Branch 1 — Mahaveer Nagar</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('shops_page') }}#branch-2">Branch 2 — City Mall</a></li>
                     </ul>
                 </li>
 

@@ -274,6 +274,18 @@ def thank_you_page():
     return render_template("thank_you.html", order_id=order_id)
 
 
+@app.route("/terms")
+def terms_page():
+    return render_template("terms.html")
+
+@app.route("/privacy")
+def privacy_page():
+    return render_template("privacy.html")
+
+@app.route("/refund")
+def refund_page():
+    return render_template("refund.html")
+
 
 
 @app.route('/menu')

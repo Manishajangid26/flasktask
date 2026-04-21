@@ -6,8 +6,9 @@
 <div class="text-center mb-5">
     <h4 class="text-uppercase" style="color: var(--primary-yellow); letter-spacing: 2px;">Our Tradition</h4>
     <h1 style="font-family: 'Playfair Display', serif; color: var(--primary-green); font-size: 3rem;">Signature Menu</h1>
-    <p class="text-muted">Freshly baked items straight from our kitchen to your heart.</p><br>
+    <p class="text-muted">Freshly baked items straight from our kitchen to your heart.</p>
     <h4 style="color: var(--primary-green); font-size: medium;">Now Spreading Sweetness Across Cities – Order from Anywhere!</h4>
+    <h2>100% Eggless Bakery</h2>
 </div>
 
 {% set occasions = {
@@ -47,7 +48,7 @@
                 
                 {# Free Gift Badge #}
                 <div class="position-absolute top-0 start-0 m-3 z-3">
-                    <span class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; letter-spacing: 0.5px;">
+                    <span onclick="alert('Surprise! A Gift Just For You 🎁')" class="badge gift-badge text-white shadow rounded-pill px-3 py-2 fw-bold" style="animation: pulseGift 2.5s infinite; font-size: 0.8rem; letter-spacing: 0.5px; cursor: pointer;">
                         <i class="fa-solid fa-gift me-1" style="animation: wiggleGift 2s infinite;"></i> Free Gift!
                     </span>
                 </div>
@@ -64,9 +65,11 @@
                 <div class="mb-3">
                     <h5 class="card-title fw-bold mb-2 text-dark" style="font-size: 1.15rem; line-height: 1.4;">{{ p.name }}</h5>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge {% if 'eggless' in (p.description|lower) %}bg-success-subtle text-success border border-success-subtle{% else %}bg-danger-subtle text-danger border border-danger-subtle{% endif %} rounded-1 px-2 py-1" style="font-size: 0.75rem;">
-                            <i class="fa-solid {% if 'eggless' in (p.description|lower) %}fa-leaf{% else %}fa-egg{% endif %} me-1"></i>{% if 'eggless' in (p.description|lower) %}Eggless{% else %}Contains Egg{% endif %}
+                        {% if 'eggless' in (p.description|lower) %}
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-1 px-2 py-1" style="font-size: 0.75rem;">
+                            <i class="fa-solid fa-leaf me-1"></i>Eggless
                         </span>
+                        {% endif %}
                         {% if p.occasion %}
                          <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-1 px-2 py-1" style="font-size: 0.75rem; text-transform: capitalize;">{{ p.occasion }}</span>
                         {% endif %}
