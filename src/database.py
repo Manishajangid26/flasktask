@@ -77,7 +77,7 @@ def init_db():
                 name="Strawberry Cake [500 g]",
                 description="Delicious Strawberry Cake [500 g]",
                 price=379.0,
-                image_url="./static/images/cakeno4.png",
+                image_url="./static/images/cake3.png",
                 category="Cakes",
                 occasion="general"
             ),
@@ -181,7 +181,7 @@ def init_db():
                 name="KitKat Cake [350 g]",
                 description="Delicious KitKat Cake [350 g]",
                 price=249.0,
-                image_url="./static/images/cake17.png",
+                image_url="./static/images/cake17.jpeg",
                 category="Cakes",
                 occasion="general"
             ),
@@ -221,7 +221,7 @@ def init_db():
                 name=" Black Forest Cake [500 g]",
                 description="Delicious  Black Forest Cake [500 g]",
                 price=409.0,
-                image_url="./static/images/cake22.png",
+                image_url="./static/images/cake22.jpeg",
                 category="Cakes",
                 occasion="general"
             ),
@@ -245,7 +245,7 @@ def init_db():
                 name=" Chocolate Cake [350 g]",
                 description="Delicious  Chocolate Cake [350 g]",
                 price=279.0,
-                image_url="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&q=80",
+                image_url="./static/images/cake25.jpeg",
                 category="Cakes",
                 occasion="general"
             ),
@@ -269,7 +269,7 @@ def init_db():
                 name="Choco Fudge Cake [500 g]",
                 description="Delicious Choco Fudge Cake [500 g]",
                 price=429.0,
-                image_url="./static/images/cake28.png",
+                image_url="./static/images/cake28.jpeg",
                 category="Cakes",
                 occasion="general"
             ),
