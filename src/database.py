@@ -149,7 +149,7 @@ def init_db():
                 name="Mixed Fruit Cake [350 g]",
                 description="Delicious Mixed Fruit Cake [350 g]",
                 price=289.0,
-                image_url="./static/images/cake13.png",
+                image_url="./static/images/cake13.png.jpeg",
                 category="Cakes",
                 occasion="general"
             ),
