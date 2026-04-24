@@ -50,16 +50,16 @@ def init_db():
         
         seed = [
             Product(
-                name="Eggless Pineapple Cake [350 g]",
-                description="Delicious Eggless Pineapple Cake [350 g]",
+                name=" Pineapple Cake [350 g]",
+                description="Delicious  Pineapple Cake [350 g]",
                 price=229.0,
                 image_url="./static/images/cake1.png",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Pineapple Cake [500 g]",
-                description="Delicious Eggless Pineapple Cake [500 g]",
+                name=" Pineapple Cake [500 g]",
+                description="Delicious  Pineapple Cake [500 g]",
                 price=379.0,
                 image_url="https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=600&q=80",
                 category="Cakes",
@@ -98,16 +98,16 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Eggless Cassata Cake [350 g]",
-                description="Delicious Eggless Cassata Cake [350 g]",
+                name=" Cassata Cake [350 g]",
+                description="Delicious  Cassata Cake [350 g]",
                 price=229.0,
                 image_url="./static/images/cake7.png",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Cassata Cake [500 g]",
-                description="Delicious Eggless Cassata Cake [500 g]",
+                name=" Cassata Cake [500 g]",
+                description="Delicious  Cassata Cake [500 g]",
                 price=379.0,
                 image_url="./static/images/cake8.png",
                 category="Cakes",
@@ -130,16 +130,16 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Eggless Butterscotch Cake [350 g]",
-                description="Delicious Eggless Butterscotch Cake [350 g]",
+                name=" Butterscotch Cake [350 g]",
+                description="Delicious  Butterscotch Cake [350 g]",
                 price=279.0,
                 image_url="./static/images/cake11.png",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Butterscotch Cake [500 g]",
-                description="Delicious Eggless Butterscotch Cake [500 g]",
+                name=" Butterscotch Cake [500 g]",
+                description="Delicious  Butterscotch Cake [500 g]",
                 price=389.0,
                 image_url="./static/images/cake12.png",
                 category="Cakes",
@@ -194,32 +194,32 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Eggless Choco Vanilla Cake [350 g]",
-                description="Delicious Eggless Choco Vanilla Cake [350 g]",
+                name=" Choco Vanilla Cake [350 g]",
+                description="Delicious  Choco Vanilla Cake [350 g]",
                 price=269.0,
                 image_url="./static/images/cake19.png",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Choco Vanilla Cake [500 g]",
-                description="Delicious Eggless Choco Vanilla Cake [500 g]",
+                name=" Choco Vanilla Cake [500 g]",
+                description="Delicious  Choco Vanilla Cake [500 g]",
                 price=409.0,
                 image_url="./static/images/cake20.png",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Black Forest Cake [350 g]",
-                description="Delicious Eggless Black Forest Cake [350 g]",
+                name=" Black Forest Cake [350 g]",
+                description="Delicious  Black Forest Cake [350 g]",
                 price=279.0,
                 image_url="./static/images/cake21.png",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Black Forest Cake [500 g]",
-                description="Delicious Eggless Black Forest Cake [500 g]",
+                name=" Black Forest Cake [500 g]",
+                description="Delicious  Black Forest Cake [500 g]",
                 price=409.0,
                 image_url="./static/images/cake22.png",
                 category="Cakes",
@@ -242,16 +242,16 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Eggless Chocolate Cake [350 g]",
-                description="Delicious Eggless Chocolate Cake [350 g]",
+                name=" Chocolate Cake [350 g]",
+                description="Delicious  Chocolate Cake [350 g]",
                 price=279.0,
                 image_url="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&q=80",
                 category="Cakes",
                 occasion="general"
             ),
             Product(
-                name="Eggless Chocolate Cake [500 g]",
-                description="Delicious Eggless Chocolate Cake [500 g]",
+                name=" Chocolate Cake [500 g]",
+                description="Delicious  Chocolate Cake [500 g]",
                 price=429.0,
                 image_url="./static/images/cake26.png",
                 category="Cakes",
@@ -362,8 +362,8 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Eggless Kanha Cake [500 g]",
-                description="Delicious Eggless Kanha Cake [500 g]",
+                name=" Kanha Cake [500 g]",
+                description="Delicious  Kanha Cake [500 g]",
                 price=500.0,
                 image_url="./static/images/cake40.png",
                 category="Cakes",
@@ -378,8 +378,8 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Janmashtami cake special eggless cake",
-                description="Delicious Janmashtami cake special eggless cake",
+                name="Janmashtami cake special  cake",
+                description="Delicious Janmashtami cake special  cake",
                 price=550.0,
                 image_url="./static/images/cake42.png",
                 category="Cakes",
@@ -394,8 +394,8 @@ def init_db():
                 occasion="general"
             ),
             Product(
-                name="Eggless Chocolate Cake [400 g]",
-                description="Delicious Eggless Chocolate Cake [400 g]",
+                name=" Chocolate Cake [400 g]",
+                description="Delicious  Chocolate Cake [400 g]",
                 price=400.0,
                 image_url="./static/images/cake44.png",
                 category="Cakes",
@@ -647,10 +647,6 @@ def list_products(category=None):
     q = db.session.query(Product).order_by(Product.id)
     if category in ("birthday", "wedding", "party"):
         q = q.filter(Product.occasion == category)
-    elif category == "eggless":
-        q = q.filter(Product.description.ilike('%eggless%') | Product.name.ilike('%eggless%'))
-    elif category == "nonveg":
-        q = q.filter(~Product.description.ilike('%eggless%'), ~Product.name.ilike('%eggless%'))
     elif category:
         q = q.filter(Product.category == category)
     rows = q.all()
