@@ -85,7 +85,7 @@ def init_db():
                 name="White Forest Cake [350 g]",
                 description="Delicious White Forest Cake [350 g]",
                 price=229.0,
-                image_url="https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=600&q=80",
+                image_url="./static/images/cake5.png",
                 category="Cakes",
                 occasion="general"
             ),
