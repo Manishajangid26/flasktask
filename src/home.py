@@ -93,13 +93,21 @@ def contact_page():
     if request.method == "POST":
         name = (request.form.get("name") or "").strip()
         email = (request.form.get("email") or "").strip()
+        phone = (request.form.get("phone") or "").strip()
         message = (request.form.get("message") or "").strip()
         if not name or not email or not message:
             flash("Please fill in name, email, and message.", "error")
         else:
-            save_contact(name, email, message)
-            flash("Thank you! We will get back to you soon.", "success")
-            return redirect(url_for("contact_page"))
+            save_contact(name, email, phone, message)
+            
+            import urllib.parse
+            admin_whatsapp = "918209117196"
+            whatsapp_text = f"New Contact Message\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}"
+            encoded_text = urllib.parse.quote(whatsapp_text)
+            whatsapp_url = f"https://wa.me/{admin_whatsapp}?text={encoded_text}"
+            
+            flash("Thank you! Redirecting to WhatsApp to send message...", "success")
+            return redirect(whatsapp_url)
     return render_template("contect.html")
 
 
@@ -393,3 +401,10 @@ def track_order_page():
             
     return render_template("track_order.html", order=order_data, items=items)
 
+
+@app.route("/admin/contacts")
+@admin_required
+def admin_contacts_page():
+    from src.database import get_all_contacts
+    contacts = get_all_contacts()
+    return render_template("admin_contacts.html", contacts=contacts)

@@ -29,18 +29,32 @@ def _ensure_product_columns():
         if "occasion" not in cols:
             conn.execute(text("ALTER TABLE products ADD COLUMN occasion VARCHAR(100)"))
 
+def _ensure_contact_columns():
+    inspector = inspect(db.engine)
+    if "contact_messages" not in inspector.get_table_names():
+        return
+    cols = {c["name"] for c in inspector.get_columns("contact_messages")}
+    with db.engine.begin() as conn:
+        if "phone" not in cols:
+            conn.execute(text("ALTER TABLE contact_messages ADD COLUMN phone VARCHAR(50)"))
+
 
 def init_db():
     db.create_all()
+    _ensure_contact_columns()
     _ensure_product_columns()
     
-    # Create default admin user if none exists
+    # Ensure correct admin user exists
     from src.models import User
-    if not db.session.query(User).filter_by(role='admin').first():
-        admin = User(name='Admin', email='admin@freshbites.com', role='admin')
-        admin.set_password('admin123')
+    admin = db.session.query(User).filter_by(role='admin').first()
+    if not admin:
+        admin = User(name='Admin', email='admin@cakefactorykota.com', role='admin')
+        admin.set_password('Admin@2026')
         db.session.add(admin)
-        db.session.commit()
+    else:
+        admin.email = 'admin@cakefactorykota.com'
+        admin.set_password('Admin@2026')
+    db.session.commit()
 
     # Check if we specifically need to reset to the updated target items.
     if db.session.query(Product).count() != 233:
@@ -658,15 +672,19 @@ def get_product(product_id):
     return _product_to_dict(p) if p else None
 
 
-def save_contact(name, email, message):
+def save_contact(name, email, phone, message):
     msg = ContactMessage(
         name=name,
         email=email,
+        phone=phone,
         message=message,
         created_at=datetime.utcnow(),
     )
     db.session.add(msg)
     db.session.commit()
+
+def get_all_contacts():
+    return db.session.query(ContactMessage).order_by(ContactMessage.created_at.desc()).all()
 
 
 def create_order(customer_name, email, phone, address, total, payment_method, lines, user_id=None):

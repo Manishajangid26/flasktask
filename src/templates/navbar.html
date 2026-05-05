@@ -100,6 +100,7 @@
                         {% if current_user %}
                             {% if current_user.role == 'admin' %}
                             <li><a class="dropdown-item" href="{{ url_for('admin_orders_page') }}">Manage Orders</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin_contacts_page') }}">Manage Contacts</a></li>
                             {% else %}
                             <li><a class="dropdown-item" href="{{ url_for('track_order_page') }}">Track Order</a></li>
                             {% endif %}
