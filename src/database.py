@@ -15,6 +15,7 @@ def _product_to_dict(p: Product):
         "image_url": p.image_url,
         "category": p.category,
         "occasion": getattr(p, "occasion", None),
+        "is_active": getattr(p, "is_active", True),
     }
 
 
@@ -28,6 +29,8 @@ def _ensure_product_columns():
             conn.execute(text("ALTER TABLE products ADD COLUMN category VARCHAR(60)"))
         if "occasion" not in cols:
             conn.execute(text("ALTER TABLE products ADD COLUMN occasion VARCHAR(100)"))
+        if "is_active" not in cols:
+            conn.execute(text("ALTER TABLE products ADD COLUMN is_active BOOLEAN DEFAULT 1"))
 
 def _ensure_contact_columns():
     inspector = inspect(db.engine)
@@ -658,7 +661,7 @@ def init_db():
 
 
 def list_products(category=None):
-    q = db.session.query(Product).order_by(Product.id)
+    q = db.session.query(Product).filter(Product.is_active == True).order_by(Product.id)
     if category in ("birthday", "wedding", "party"):
         q = q.filter(Product.occasion == category)
     elif category:
@@ -670,6 +673,46 @@ def list_products(category=None):
 def get_product(product_id):
     p = db.session.get(Product, product_id)
     return _product_to_dict(p) if p else None
+
+def get_all_products_admin():
+    rows = db.session.query(Product).order_by(Product.id.desc()).all()
+    return [_product_to_dict(p) for p in rows]
+
+def add_product(name, description, price, image_url, category, occasion):
+    p = Product(
+        name=name,
+        description=description,
+        price=price,
+        image_url=image_url,
+        category=category,
+        occasion=occasion,
+        is_active=True
+    )
+    db.session.add(p)
+    db.session.commit()
+    return p.id
+
+def update_product(product_id, name, description, price, image_url, category, occasion):
+    p = db.session.get(Product, product_id)
+    if p:
+        p.name = name
+        p.description = description
+        p.price = price
+        if image_url:
+            p.image_url = image_url
+        p.category = category
+        p.occasion = occasion
+        db.session.commit()
+        return True
+    return False
+
+def toggle_product_active(product_id):
+    p = db.session.get(Product, product_id)
+    if p:
+        p.is_active = not getattr(p, 'is_active', True)
+        db.session.commit()
+        return p.is_active
+    return None
 
 
 def save_contact(name, email, phone, message):

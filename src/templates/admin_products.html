@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Manage Inventory{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2 style="color: var(--primary-green);">Manage Inventory</h2>
+        <p class="text-muted">Add new cakes, edit prices, or mark items out of stock.</p>
+    </div>
+    <div class="col-md-6 text-md-end">
+        <a href="{{ url_for('admin_product_add') }}" class="btn btn-order">
+            <i class="fa-solid fa-plus me-1"></i> Add New Product
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        {% if products %}
+        <div class="table-responsive bg-white rounded-3 shadow-sm p-3">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 80px;">Image</th>
+                        <th>Name & Description</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in products %}
+                    <tr>
+                        <td>
+                            <div class="ratio ratio-1x1 rounded-2 overflow-hidden bg-light border">
+                                <img src="{{ p.image_url }}" alt="{{ p.name }}" style="object-fit: cover; width: 100%; height: 100%;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="fw-semibold" style="color: var(--primary-green);">{{ p.name }}</div>
+                            <div class="small text-muted text-truncate" style="max-width: 250px;">{{ p.description }}</div>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ p.category or 'None' }}</span>
+                            {% if p.occasion %}
+                            <span class="badge bg-info text-dark">{{ p.occasion }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="fw-bold">₹{{ '%.0f'|format(p.price) }}</td>
+                        <td>
+                            {% if p.is_active %}
+                            <span class="badge bg-success">In Stock</span>
+                            {% else %}
+                            <span class="badge bg-danger">Out of Stock</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('admin_product_edit', product_id=p.id) }}" class="btn btn-sm btn-outline-primary mb-1 mb-md-0" title="Edit">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </a>
+                            <form method="post" action="{{ url_for('admin_product_toggle', product_id=p.id) }}" class="d-inline-block">
+                                {% if p.is_active %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Mark Out of Stock">
+                                    <i class="fa-solid fa-ban"></i> Deactivate
+                                </button>
+                                {% else %}
+                                <button type="submit" class="btn btn-sm btn-outline-success" title="Mark In Stock">
+                                    <i class="fa-solid fa-check"></i> Activate
+                                </button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info border-0 rounded-3 text-center py-4 shadow-sm">
+            No products found. Start by adding one!
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

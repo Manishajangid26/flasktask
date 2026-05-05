@@ -11,8 +11,14 @@ from src.database import (
     get_user_by_id,
     create_user,
     get_all_orders,
-    update_order_status
+    update_order_status,
+    get_all_products_admin,
+    add_product,
+    update_product,
+    toggle_product_active
 )
+import os
+from werkzeug.utils import secure_filename
 from functools import wraps
 
 @app.context_processor
@@ -308,7 +314,7 @@ def menu_page():
     from src.extensions import db
     from src.database import _product_to_dict
     
-    q = db.session.query(Product).order_by(Product.id)
+    q = db.session.query(Product).filter(Product.is_active == True).order_by(Product.id)
     if active_occasion:
         q = q.filter(Product.occasion == active_occasion)
     
@@ -408,3 +414,99 @@ def admin_contacts_page():
     from src.database import get_all_contacts
     contacts = get_all_contacts()
     return render_template("admin_contacts.html", contacts=contacts)
+
+
+@app.route("/admin/products")
+@admin_required
+def admin_products_page():
+    products = get_all_products_admin()
+    return render_template("admin_products.html", products=products)
+
+
+@app.route("/admin/products/add", methods=["GET", "POST"])
+@admin_required
+def admin_product_add():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        price_str = request.form.get("price", "0")
+        description = request.form.get("description", "").strip()
+        category = request.form.get("category", "").strip()
+        occasion = request.form.get("occasion", "").strip()
+        
+        try:
+            price = float(price_str)
+        except (ValueError, TypeError):
+            flash("Invalid price.", "error")
+            return redirect(request.url)
+            
+        image_url = request.form.get("image_url", "").strip()
+        file = request.files.get("image_file")
+        if file and file.filename != "":
+            filename = secure_filename(file.filename)
+            upload_folder = os.path.join(app.root_path, "..", "static", "images")
+            os.makedirs(upload_folder, exist_ok=True)
+            file.save(os.path.join(upload_folder, filename))
+            image_url = f"./static/images/{filename}"
+            
+        if not image_url:
+            flash("Please provide an image URL or upload an image.", "error")
+            return redirect(request.url)
+            
+        add_product(name, description, price, image_url, category, occasion)
+        flash("Product added successfully.", "success")
+        return redirect(url_for("admin_products_page"))
+        
+    return render_template("admin_product_form.html")
+
+
+@app.route("/admin/products/<int:product_id>/edit", methods=["GET", "POST"])
+@admin_required
+def admin_product_edit(product_id):
+    p = get_product(product_id)
+    if not p:
+        flash("Product not found.", "error")
+        return redirect(url_for("admin_products_page"))
+        
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        price_str = request.form.get("price", "0")
+        description = request.form.get("description", "").strip()
+        category = request.form.get("category", "").strip()
+        occasion = request.form.get("occasion", "").strip()
+        
+        try:
+            price = float(price_str)
+        except (ValueError, TypeError):
+            flash("Invalid price.", "error")
+            return redirect(request.url)
+            
+        image_url = request.form.get("image_url", "").strip()
+        file = request.files.get("image_file")
+        if file and file.filename != "":
+            filename = secure_filename(file.filename)
+            upload_folder = os.path.join(app.root_path, "..", "static", "images")
+            os.makedirs(upload_folder, exist_ok=True)
+            file.save(os.path.join(upload_folder, filename))
+            image_url = f"./static/images/{filename}"
+            
+        # If both are empty and user didn't upload, keep the old one
+        if not image_url:
+            image_url = p["image_url"]
+            
+        update_product(product_id, name, description, price, image_url, category, occasion)
+        flash("Product updated successfully.", "success")
+        return redirect(url_for("admin_products_page"))
+        
+    return render_template("admin_product_form.html", product=p)
+
+
+@app.route("/admin/products/<int:product_id>/toggle", methods=["POST"])
+@admin_required
+def admin_product_toggle(product_id):
+    new_status = toggle_product_active(product_id)
+    if new_status is not None:
+        status_text = "Activated" if new_status else "Deactivated (Out of Stock)"
+        flash(f"Product {status_text}.", "success")
+    else:
+        flash("Product not found.", "error")
+    return redirect(url_for("admin_products_page"))

@@ -13,6 +13,7 @@ class Product(db.Model):
     image_url = db.Column(db.String(500))
     category = db.Column(db.String(60), nullable=True)
     occasion = db.Column(db.String(100), nullable=True)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
 
 
 class ContactMessage(db.Model):
